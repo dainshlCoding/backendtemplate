@@ -102,7 +102,4 @@ dist
 
 # TernJS port file
 .tern-port
-
-.editorconfig
-development.env
-production.env
+launch.json

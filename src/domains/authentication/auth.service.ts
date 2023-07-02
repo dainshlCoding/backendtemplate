@@ -8,6 +8,7 @@ import { mapUserToUserDto } from './user.mapper';
 import { Roles } from '../../models/role.enum';
 import { sendUnlockUserMail } from '../../services/mail.service';
 
+const privKey = process.env.RS256PK.replace(/\\n/g, '\n')
 /**
  * Login()
  *
@@ -18,7 +19,7 @@ import { sendUnlockUserMail } from '../../services/mail.service';
 async function login(email: string, password: string): Promise<{ jwt: string; user: UserDto; expires: number }> {
 	const userDto = await validateLogin(email, password);
 	const tokenExpiresInMillis = 1000 * 60 * 60 * 24;
-	const jwtBearerToken = jwt.sign({ userDto }, RSA_PRIVATE_KEY, {
+	const jwtBearerToken = jwt.sign({ userDto }, privKey, {
 		algorithm: 'RS256',
 		expiresIn: tokenExpiresInMillis,
 	});
@@ -39,7 +40,7 @@ async function login(email: string, password: string): Promise<{ jwt: string; us
 async function signUp(user: UserCreateDto): Promise<boolean> {
 	user.role = Roles.user;
 	const newUser = await userRepository.createUser(user);
-	await sendUnlockUserMail(newUser);
+	await sendUnlockUserMail(newUser.firstName, newUser.lastName, newUser.email);
 	return true;
 }
 
@@ -50,7 +51,7 @@ async function signUp(user: UserCreateDto): Promise<boolean> {
  * @returns
  */
 function checkToken(token: string): UserDto {
-	const responseJwt: JwtPayload = jwt.verify(token, RSA_PRIVATE_KEY, {
+	const responseJwt: JwtPayload = jwt.verify(token, privKey, {
 		algorithms: ['RS256'],
 	}) as JwtPayload;
 
@@ -67,7 +68,7 @@ function checkToken(token: string): UserDto {
  * @returns
  */
 function refreshToken(token: string): { jwt: string; expires: number } {
-	const responseJwt = jwt.verify(token, RSA_PRIVATE_KEY, {
+	const responseJwt = jwt.verify(token, privKey, {
 		algorithms: ['RS256'],
 	});
 	let subject: string = '';
@@ -77,7 +78,7 @@ function refreshToken(token: string): { jwt: string; expires: number } {
 	const expiresInMillis = 1000 * 60 * 60 * 24;
 	const expiringDate = new Date().getTime() + expiresInMillis;
 
-	const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
+	const jwtBearerToken = jwt.sign({}, privKey, {
 		algorithm: 'RS256',
 		expiresIn: expiresInMillis,
 		subject: subject,

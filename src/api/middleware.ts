@@ -1,9 +1,9 @@
 import StatusCodes from 'http-status-codes';
 import { NextFunction, Request, Response } from 'express';
 import expressJwt from 'express-jwt';
-import authService from '../services/auth.service';
 import { JwtMissingError } from '../util/errors';
 import { Roles } from '../models/role.enum';
+import authService from '../domains/authentication/auth.service';
 
 const { UNAUTHORIZED } = StatusCodes;
 const pubKey = process.env.RS256PUBKEY.replace(/\\n/g, '\n');
