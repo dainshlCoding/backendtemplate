@@ -25,7 +25,7 @@ function setEnvironment() {
 		{
 			name: 'env',
 			alias: 'e',
-			defaultValue: 'development',
+			defaultValue: 'local',
 			type: String,
 		},
 	]);

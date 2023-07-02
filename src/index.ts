@@ -6,4 +6,5 @@ const serverStartMsg = 'Express server started on port: ',
 
 server.listen(port, () => {
 	console.log(serverStartMsg + port);
+	console.log(process.env.MONGODB)
 });

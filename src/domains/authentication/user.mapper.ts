@@ -3,6 +3,7 @@ import { User } from "./user.entity";
 
 export function mapUserToUserDto(user: User): UserDto {
 	const userDto: UserDto = {
+		_id: user._id,
 		username: user.username,
 		email: user.email,
 		role: user.role,
@@ -10,16 +11,4 @@ export function mapUserToUserDto(user: User): UserDto {
 		lastName: user.lastName
 	}
 	return userDto
-}
-
-export function mapUserToUserCreateDto(user: User): UserCreateDto {
-	const userCreateDto: UserCreateDto = {
-		username: user.username,
-		email: user.email,
-		password: user.password,
-		role: user.role,
-		firstName: user.firstName,
-		lastName: user.lastName
-	}
-	return userCreateDto
 }

@@ -83,13 +83,13 @@ export class JwtMissingError extends CustomError {
 	}
 }
 
-export class SavingFailedError extends CustomError {
-	public static readonly Msg = 'Saving to database failed';
+export class CreationFailedError extends CustomError {
+	public static readonly Msg = 'Creating object in database failed';
 	public static readonly HttpStatus = HttpStatusCodes.INTERNAL_SERVER_ERROR;
 	public dtoObject: any;
 
 	constructor(error: Error, dto: any) {
-		super(SavingFailedError.Msg, SavingFailedError.HttpStatus);
+		super(CreationFailedError.Msg, CreationFailedError.HttpStatus);
 		this.dtoObject = dto;
 		logError(error);
 	}
@@ -100,7 +100,7 @@ export class UserNotUniqueError extends CustomError {
 	public static readonly HttpStatus = HttpStatusCodes.NOT_ACCEPTABLE;
 
 	constructor(error: Error) {
-		super(SavingFailedError.Msg, SavingFailedError.HttpStatus);
+		super(CreationFailedError.Msg, CreationFailedError.HttpStatus);
 		logError(error);
 	}
 }

@@ -2,12 +2,12 @@ import { Roles } from "../../models/role.enum";
 import { User } from "./user.entity";
 
 export interface UserDto {
+	_id: string;
 	username: string;
 	email: string;
 	role: Roles;
-	firstName?: string;
-	lastName?: string;
-
+	firstName: string;
+	lastName: string;
 }
 
 

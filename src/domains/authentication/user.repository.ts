@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import mongooseUniqueValidator from 'mongoose-unique-validator';
 import bcrypt from 'bcrypt';
 import { log } from '../../util/logger';
-import { DeletingFailedError, SavingFailedError, UserNotUniqueError } from '../../util/errors';
+import { DeletingFailedError, CreationFailedError, UserNotUniqueError } from '../../util/errors';
 import { User } from './user.entity';
 import { UserCreateDto } from './user.dto';
 
@@ -56,7 +56,7 @@ async function createUser(userCreateDto: UserCreateDto): Promise<User> {
 		if (error.errors?.username?.kind === 'unique' || error.errors?.email?.kind === 'unique') {
 			throw new UserNotUniqueError(error);
 		}
-		throw new SavingFailedError(error, userCreateDto);
+		throw new CreationFailedError(error, userCreateDto);
 	}
 }
 
